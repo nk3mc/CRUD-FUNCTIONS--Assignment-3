@@ -1,31 +1,29 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const config = require('./config/config'); // Path to your config
+const config = require('./config/config'); // Path to config
 
 const app = express();
 
-// -------- SET EJS TEMPLATE ENGINE --------
-app.set('views', path.join(__dirname, 'views')); // Ensure it's pointing to the correct 'views' folder
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// -------- MIDDLEWARE TO HANDLE FORM DATA --------
-app.use(express.urlencoded({ extended: true })); // <-- REQUIRED FOR POST FORM SUBMISSION!
+// Middleware to handle form data
+app.use(express.urlencoded({ extended: true }));
 
-// -------- SERVE STATIC FILES --------
-app.use(express.static(path.join(__dirname, 'public'))); // Correct path to serve static files
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// -------- CONNECT TO MONGODB --------
-mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => console.log("Failed to connect to MongoDB", err));
+// Connect to MongoDB
+mongoose.connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch((err) => console.log("Failed to connect to MongoDB", err));
 
-// -------- ROUTES --------
-const indexRouter = require('./routes/index'); // Import the index router
-app.use('/', indexRouter); // Use the indexRouter for the '/' route
+// Routes
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
 
-
-
-module.exports = app; 
-
-
+module.exports = app;
