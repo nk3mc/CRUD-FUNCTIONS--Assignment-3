@@ -1,12 +1,10 @@
 {
   "name": "taskbuddy",
   "version": "1.0.0",
-  "description": "Simple Task Tracker App",
-  "main": "server.js",
+  "description": "",
+  "main": "server/app.js",
   "scripts": {
-    "start": "start": "node server/app.js"
-,
-    "dev": "nodemon server.js"
+    "start": "node server/app.js"
   },
   "keywords": [],
   "author": "",
