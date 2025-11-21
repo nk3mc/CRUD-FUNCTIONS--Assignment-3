@@ -1,0 +1,126 @@
+<%- include('partials/header') %>
+
+<main class="content-wrap container section-padding-y">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-list-check me-2"></i>My Tasks</h2>
+        <a href="/tasks/add" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>Add Task
+        </a>
+    </div>
+
+    <% if (tasks && tasks.length > 0) { %>
+    <div class="row g-4">
+        <% tasks.forEach(task => { %>
+        <div class="col-md-4">
+            <div class="card task-card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title mb-2 d-flex align-items-center">
+                        <% if (task.completed) { %>
+                        <i class="bi bi-check2-square text-success me-2"></i>
+                        <% } else { %>
+                        <i class="bi bi-square me-2"></i>
+                        <% } %>
+                        <%= task.name %>
+                    </h5>
+
+                    <p><strong>Subject:</strong> <%= task.subject %></p>
+                    <p><strong>Due:</strong> <%= task.dueDate.toDateString() %></p>
+
+                    <div class="mt-auto d-flex gap-2">
+                        <!-- Mark Complete Button -->
+                        <% if (!task.completed) { %>
+                        <form action="/tasks/complete/<%= task._id %>" method="POST">
+                            <button class="btn btn-success btn-sm w-100">
+                                <i class="bi bi-check2-circle me-1"></i>Complete
+                            </button>
+                        </form>
+                        <% } %>
+
+                        <!-- Edit button triggers modal -->
+                        <button class="btn btn-warning btn-sm w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editModal-<%= task._id %>">
+                            <i class="bi bi-pencil-square me-1"></i>Edit
+                        </button>
+
+                        <!-- Delete button triggers modal -->
+                        <button class="btn btn-outline-danger btn-sm w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal-<%= task._id %>">
+                            <i class="bi bi-trash3 me-1"></i>Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Task Modal -->
+        <div class="modal fade" id="editModal-<%= task._id %>" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-pencil me-2"></i>Edit Task
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form method="POST" action="/tasks/edit/<%= task._id %>">
+                        <div class="modal-body">
+                            <label class="form-label">Task Name</label>
+                            <input class="form-control" type="text" name="name" value="<%= task.name %>" required>
+
+                            <label class="form-label mt-3">Subject</label>
+                            <input class="form-control" type="text" name="subject" value="<%= task.subject %>" required>
+
+                            <label class="form-label mt-3">Due Date</label>
+                            <input class="form-control" type="date" name="dueDate"
+                                value="<%= task.dueDate.toISOString().split('T')[0] %>" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-save me-1"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal-<%= task._id %>" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger">
+                            <i class="bi bi-trash3 me-2"></i>Delete Task
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete:
+                        <strong><%= task.name %></strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                        <form method="POST" action="/tasks/delete/<%= task._id %>">
+                            <button class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% }) %>
+    </div>
+    <% } else { %>
+    <p class="text-center">No tasks yet. Add some tasks!</p>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>
+
+
+

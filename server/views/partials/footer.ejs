@@ -1,0 +1,29 @@
+    <footer class="site-footer mt-4">
+    <div class="container text-center small">
+        <div class="mb-1">
+            Contact us at:
+            <a href="mailto:info@taskbuddy.com">info@taskbuddy.com</a>
+            &nbsp;|&nbsp; Phone: +1 (234) 567-890
+        </div>
+        <div>© 2025 TaskBuddy</div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS bundle -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<!-- Small animation script for “completed” tasks -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const completedBadges = document.querySelectorAll(".task-completed-badge");
+        completedBadges.forEach((badge) => {
+            // Add a tiny delay so the animation plays after render
+            setTimeout(() => badge.classList.add("task-completed-badge--show"), 100);
+        });
+    });
+</script>
+
+</body>
+</html>
