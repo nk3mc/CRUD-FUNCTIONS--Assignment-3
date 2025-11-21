@@ -24,7 +24,7 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: t
 const indexRouter = require('./routes/index'); // Import the index router
 app.use('/', indexRouter); // Use the indexRouter for the '/' route
 
-// More routes can be added here as necessary
+
 
 module.exports = app; 
 
