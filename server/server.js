@@ -1,13 +1,17 @@
 
-const http = require('http');  // Import HTTP module
-const app = require('./app');  // Import the app.js file which contains app logic
-const port = process.env.PORT || 4000;  // Set port, default to 4000
+const express = require('express');
+const mongoose = require('mongoose');
+const config = require('./config/config');
+const app = require('./app');
 
-// Create server using app.js
-const server = http.createServer(app);
+const PORT = process.env.PORT || 4000;
 
-// Start the server
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Connect to MongoDB
+mongoose.connect(config.mongoURI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log("Failed to connect to MongoDB", err));
+
+// Start server directly on Express app (important for Render!)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
-
